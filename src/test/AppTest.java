@@ -1,6 +1,5 @@
 package test;
 
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -38,7 +37,7 @@ public class AppTest {
         assertFalse("Encontrado " + 5, e.buscaElemento(5));
         assertFalse("Encontrado " + -1, e.buscaElemento(-1));
     }
-    
+
     @Test
     public void testInsereFim() {
         e.insereFim(0);
