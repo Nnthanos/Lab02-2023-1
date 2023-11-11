@@ -36,38 +36,66 @@ public class ListaArray implements EstruturaElementar {
 
     @Override
     public int minimo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'minimo'");
+        int min = array[0];
+        for (int i : array) {
+            if (min > i)
+                min = i;
+        }
+        return min;
     }
 
     @Override
     public int maximo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'maximo'");
+        int max = array[0];
+        for (int i : array) {
+            if (max < i)
+                max = i;
+        }
+        return max;
     }
 
     @Override
     public int predecessor(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'predecessor'");
+        if (indice_fim >= valor && valor > 0) {
+            return array[valor - 1];
+        }
+        return -1;
     }
 
     @Override
     public int sucessor(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'sucessor'");
+        if (indice_fim > valor && valor <= 0) {
+            return array[valor + 1];
+        }
+        return -1;
     }
 
     @Override
     public void insereElemento(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insereElemento'");
+        insereFim(valor);
     }
 
     @Override
     public void insereElementoPosicao(int valor, int buscaIndice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insereElementoPosicao'");
+        int[] novoArray;
+        if (indice_fim >= 0) {
+            novoArray = new int[indice_fim + 2]; // criando um novo array de tamanho maior para encaixar o
+                                                 // elemento novo
+        } else {
+            novoArray = new int[1]; // estou usando indice_fim como -1 caso ele não tenha nenhum elemento ainda
+        }
+
+        for (int i = indice_fim + 1; i >= 0; i--) {
+            if (i > buscaIndice) {
+                novoArray[i] = array[i - 1];
+            } else if (i == buscaIndice) {
+                novoArray[i] = valor;
+            } else {
+                novoArray[i] = array[i];
+            }
+        }
+        array = novoArray;
+        indice_fim += 1;
     }
 
     @Override
@@ -80,8 +108,8 @@ public class ListaArray implements EstruturaElementar {
             novoArray = new int[1]; // estou usando indice_fim como -1 caso ele não tenha nenhum elemento ainda
         }
 
-        for (int i = indice_fim; i >= 0; i--) {
-            novoArray[i + 1] = array[i];
+        for (int i = indice_fim + 1; i > 0; i--) {
+            novoArray[i] = array[i - 1];
         }
         novoArray[0] = valor;
         array = novoArray;
@@ -90,32 +118,62 @@ public class ListaArray implements EstruturaElementar {
 
     @Override
     public void insereFim(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'insereFim'");
+        int[] novoArray;
+        if (indice_fim >= 0) {
+            novoArray = new int[indice_fim + 2]; // criando um novo array de tamanho maior para enCaixar o
+                                                 // elemento novo
+        } else {
+            novoArray = new int[1]; // estou usando indice_fim como -1 caso ele não tenha nenhum elemento ainda
+        }
+
+        for (int i = indice_fim; i >= 0; i--) {
+            novoArray[i] = array[i];
+        }
+        indice_fim += 1;
+        novoArray[indice_fim] = valor;
+        array = novoArray;
+
     }
 
     @Override
     public void remove(int valor) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
+        int indiceRemovido = -1;
+        for (int i = 0; i <= indice_fim; i++) {
+            if (array[i] == valor) {
+                indiceRemovido = i;
+            }
+        }
+        if (indiceRemovido >= 0) {
+            for (int j = indiceRemovido; j <= indice_fim - 1; j++) {
+                array[j] = array[j + 1];
+            }
+            indice_fim -= 1;
+        }
     }
 
     @Override
     public void removeIndice(int indice) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeIndice'");
+        if (indice >= 0) {
+            for (int j = indice; j <= indice_fim - 1; j++) {
+                array[j] = array[j + 1];
+            }
+            indice_fim -= 1;
+        }
     }
 
     @Override
     public void removeInicio() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeInicio'");
+        if (indice_fim >= 0)
+            for (int j = 0; j <= indice_fim - 1; j++) {
+                array[j] = array[j + 1];
+            }
+        indice_fim -= 1;
     }
 
     @Override
     public void removeFim() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'removeFim'");
+        if (indice_fim >= 0)
+            indice_fim -= 1;
     }
 
 }
