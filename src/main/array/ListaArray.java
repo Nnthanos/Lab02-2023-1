@@ -8,7 +8,7 @@ public class ListaArray implements EstruturaElementar {
     private int indice_fim;
 
     public ListaArray() {
-        this.array = new int[0];
+        this.array = new int[100];
         this.indice_fim = -1;
     }
 
@@ -16,7 +16,6 @@ public class ListaArray implements EstruturaElementar {
     public boolean buscaElemento(int valor) {
         if (indice_fim >= 0) {
             for (int i = 0; i <= indice_fim; i++) {
-                int aux = array[i];
                 if (array[i] == valor)
                     return true;
             }
@@ -77,62 +76,39 @@ public class ListaArray implements EstruturaElementar {
 
     @Override
     public void insereElementoPosicao(int valor, int buscaIndice) {
-        int[] novoArray;
-        if (indice_fim >= 0) {
-            novoArray = new int[indice_fim + 2]; // criando um novo array de tamanho maior para encaixar o
-                                                 // elemento novo
-        } else {
-            novoArray = new int[1]; // estou usando indice_fim como -1 caso ele não tenha nenhum elemento ainda
+        if (isFull()) {
+            aumentaArray();
         }
 
         for (int i = indice_fim + 1; i >= 0; i--) {
             if (i > buscaIndice) {
-                novoArray[i] = array[i - 1];
+                array[i] = array[i - 1];
             } else if (i == buscaIndice) {
-                novoArray[i] = valor;
-            } else {
-                novoArray[i] = array[i];
+                array[i] = valor;
             }
         }
-        array = novoArray;
         indice_fim += 1;
     }
 
     @Override
     public void insereInicio(int valor) {
-        int[] novoArray;
-        if (indice_fim >= 0) {
-            novoArray = new int[indice_fim + 2]; // criando um novo array de tamanho maior para enCaixar o
-                                                 // elemento novo
-        } else {
-            novoArray = new int[1]; // estou usando indice_fim como -1 caso ele não tenha nenhum elemento ainda
+        if (isFull()) {
+            aumentaArray();
         }
-
-        for (int i = indice_fim + 1; i > 0; i--) {
-            novoArray[i] = array[i - 1];
+        for (int i = indice_fim; i >= 0; i--) {
+            array[i + 1] = array[i];
         }
-        novoArray[0] = valor;
-        array = novoArray;
+        array[0] = valor;
         indice_fim += 1;
     }
 
     @Override
     public void insereFim(int valor) {
-        int[] novoArray;
-        if (indice_fim >= 0) {
-            novoArray = new int[indice_fim + 2]; // criando um novo array de tamanho maior para enCaixar o
-                                                 // elemento novo
-        } else {
-            novoArray = new int[1]; // estou usando indice_fim como -1 caso ele não tenha nenhum elemento ainda
-        }
-
-        for (int i = indice_fim; i >= 0; i--) {
-            novoArray[i] = array[i];
+        if (isFull()) {
+            aumentaArray();
         }
         indice_fim += 1;
-        novoArray[indice_fim] = valor;
-        array = novoArray;
-
+        array[indice_fim] = valor;
     }
 
     @Override
@@ -174,6 +150,23 @@ public class ListaArray implements EstruturaElementar {
     public void removeFim() {
         if (indice_fim >= 0)
             indice_fim -= 1;
+    }
+
+    private boolean isFull() {
+        if (indice_fim >= array.length - 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void aumentaArray() {
+        int[] novoArray = new int[array.length + 100];
+
+        for (int i = 0; i <= array.length - 1; i++) {
+            novoArray[i] = array[i];
+        }
+        array = novoArray;
     }
 
 }
